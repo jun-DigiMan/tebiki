@@ -116,7 +116,7 @@ mkdir -p "/Users/user/projects/screenshots/手順書タイトル"
 	- [効果・メリット2]
 	- [効果・メリット3]
 	<empty-block/>
-	不明点はお気軽に 🙋
+	不明点はお気軽に 🙋🏻
 </callout>
 ```
 
