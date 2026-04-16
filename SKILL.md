@@ -122,10 +122,19 @@ mkdir -p "/Users/user/projects/screenshots/手順書タイトル"
 
 #### スクリーンショットの埋め込み方法
 
-STEP 0でfile_upload_idを取得済みの場合、`mcp__notion__API-patch-block-children` を使って各ステップの直後にimage blockを追加する：
+**重要：** 画像はステップブロックの「兄弟」ではなく「子ブロック」として追加すること。
+兄弟として挿入すると番号付きリストがリセットされる。子として挿入することで通し番号が維持される。
+
+**手順：**
+1. `mcp__notion__API-post-page` でページを作成（テキストコンテンツのみ）
+2. 作成したページIDを取得
+3. 各ステップブロックのIDを取得（`mcp__notion__API-get-block-children`）
+4. **各ステップブロックのID** に対して `mcp__notion__API-patch-block-children` でimage blockを子として追加
 
 ```json
+// ページIDではなく、各ステップブロックのIDに対して呼び出す
 {
+  "block_id": "<ステップのブロックID>",
   "children": [
     {
       "type": "image",
@@ -138,11 +147,7 @@ STEP 0でfile_upload_idを取得済みの場合、`mcp__notion__API-patch-block-
 }
 ```
 
-**手順：**
-1. `mcp__notion__API-post-page` でページを作成（テキストコンテンツのみ）
-2. 作成したページIDを取得
-3. 各ステップブロックのIDを取得（`mcp__notion__API-get-block-children`）
-4. 各ステップの下に `mcp__notion__API-patch-block-children` でimage blockを追加
+これによりステップの直下（インデント）に画像が入り、番号付きリストの通し番号が崩れない。
 
 画像がない場合は、各ステップ下に `> 📸 スクリーンショット：step0X.png を添付してください` というコメントを挿入して場所を明示する。
 
